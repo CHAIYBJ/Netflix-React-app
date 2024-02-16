@@ -26,7 +26,7 @@ const SavedShows = () => {
   const movieRef = doc(db, "users", `${user?.email}`);
   const deleteShow = async (passedID) => {
     try {
-      const result = movies.filter((item) => item.id !== passedID);
+      const result = movies?.filter((item) => item.id !== passedID);
       await updateDoc(movieRef, {
         savedShows: result,
       });
@@ -34,10 +34,14 @@ const SavedShows = () => {
       console.log(error);
     }
   };
+  console.log("movies", movies)
 
   return (
     <>
       <h2 className="text-white font-bold md:text-xl p-4">My Shows</h2>
+      <div>{(movies?.length < 1 || movies == undefined) && (
+        <div className="text-white font-bold text-xl">No Favorite movie yet, kindly go back to home a selct a movie</div>
+      )} </div>
       <div className="relative flex items-center group">
         <MdChevronLeft
           onClick={slideLeft}
@@ -48,7 +52,7 @@ const SavedShows = () => {
           id={"slider"}
           className="w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative"
         >
-          {movies.map((item, id) => (
+          {movies?.map((item, id) => (
             <div
               key={id}
               className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2 "

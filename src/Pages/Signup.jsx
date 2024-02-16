@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import { Link, useNavigate, } from "react-router-dom";
 import { UserAuth } from "../Context/AuthContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Icon } from "@mui/material";
+import  InputAdornment from "@mui/material/InputAdornment";
+import  IconButton  from "@mui/material/IconButton";
+import  TextField  from "@mui/material/TextField";
+import  Visibility  from "@mui/icons-material/Visibility";
+import  VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState("");
+  const togglePasswordVisibility = (icon) => {
+    setShowPassword(!showPassword);
+  };
   const { user, signUp } = UserAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
@@ -36,18 +47,44 @@ const Signup = () => {
               >
                 <input
                   onChange={(e) => setEmail(e.target.value)}
-                  className="p-3 my-2 bg-gray-700 rounded"
+                  className="p-3 my-5 bg-white rounded text-black"
                   type="email"
                   placeholder="Email"
                   autoComplete="email"
                 />
-                <input
+                {/* <input
                   onChange={(e) => setPassword(e.target.value)}
                   className="p-3 my-2 bg-gray-700 rounded"
                   type="password"
                   placeholder="Password"
                   autoComplete="current-password"
+                /> */}
+                 <div className="text-white">
+                <TextField
+
+                  className="p-5  w-full bg-white rounded text-white"
+                  type={showPassword ? "text" : "password"}
+                  label="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={togglePasswordVisibility}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
+              </div>
                 <button className="bg-red-600 py-3 my-6 rounded font-bold">
                   Sign Up
                 </button>
